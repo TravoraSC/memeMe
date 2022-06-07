@@ -1,0 +1,72 @@
+html {
+  background-image: url(img/pepe.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 7% 20% 0 20%;
+  border-radius: 3%;
+}
+
+.secondPage {
+  width: 60rem;
+  margin: 23rem;
+  margin-left: 60em;
+  margin-top: 0;
+  height: 100vh;
+  color: black;
+}
+
+.secondPage .container {
+  background-color: #eee;
+  width: 50rem;
+  text-align: center;
+  /* margin-top: 16rem; */
+}
+
+.secondPage .row {
+  height: 75vh;
+}
+
+.secondPage .col-sm-6 {
+  display: contents;
+}
+
+.secondPage form {
+  display: inline-block;
+  text-align: initial;
+}
+
+h1,
+h2,
+h3,
+div {
+  align-self: center;
+}
+
+div {
+  background-color: #5f4b51;
+  border-radius: 2%;
+}
+
+.container {
+  width: 60rem;
+  text-align: center;
+  /* height: 100vh; */
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  width: 36rem;
+}
+
+p {
+  overflow-wrap: break-word
+}
