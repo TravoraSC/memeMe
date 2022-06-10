@@ -12,7 +12,7 @@ module.exports = function(app, passport, db, ObjectId) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('post').find().toArray((err, result) => {
+        db.collection('messages').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('profile.ejs', {
             user : req.user,
@@ -26,18 +26,18 @@ module.exports = function(app, passport, db, ObjectId) {
 
     app.post('/upload', isLoggedIn, async (req,res) => {
       try{
-        const {profileImg} = req.files;
-        console.log(profileImg)
-        const fileName = profileImg.name;
-        const size = profileImg.data.length;
+        const {img} = req.files;
+        console.log(img)
+        const fileName = img.name;
+        const size = img.data.length;
         const extension = trail.extname(fileName);
         console.log(req.user)
 
     
-        const md5 = profileImg.md5;
+        const md5 = img.md5;
         const URL = "/img/" + md5  + size + extension;
     
-        await util.promisify(profileImg.mv)('./public' + URL );
+        await util.promisify(img.mv)('./public' + URL );
     
         res.redirect('/profile')
         } catch(err){
@@ -46,14 +46,14 @@ module.exports = function(app, passport, db, ObjectId) {
             message: err,
           })
         }
-          db.collection('post').findOneAndUpdate(
+          db.collection('messages').findOneAndUpdate(
             {
               user_id: ObjectId(req.user._id)
             },{
               $set:{
                   user_id: ObjectId(req.user._id),
                   name: req.body.name,
-                  img: "/img/" + req.files.profileImg.md5 + req.files.profileImg.size + trail.extname(req.files.profileImg.name)
+                  img: "/img/" + req.files.img.md5 + req.files.img.size + trail.extname(req.files.img.name)
             } 
           }, {
             upsert: true,
@@ -73,7 +73,7 @@ module.exports = function(app, passport, db, ObjectId) {
 // message board routes ===============================================================
 
     app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+      db.collection('messages').save({name: req.body.name, img: req.body.img, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
@@ -110,7 +110,7 @@ module.exports = function(app, passport, db, ObjectId) {
     })
 
     app.delete('/messages', (req, res) => {
-      db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
+      db.collection('messages').findOneAndDelete({name: req.body.name, img: req.body.img}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })

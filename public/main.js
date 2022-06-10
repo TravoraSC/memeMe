@@ -5,21 +5,23 @@ submitBtn.addEventListener('click', () => {
     .then(window.location.reload())
 })
 
-var thumbUp = document.getElementsByClassName("thumbs-up");
-var thumbDown = document.getElementsByClassName("fa-thumbs-down");
-var trash = document.getElementsByClassName("trash");
+const thumbUp = document.getElementsByClassName("fa-thumbs-up");
+const thumbDown = document.getElementsByClassName("fa-thumbs-down");
+const trash = document.getElementsByClassName("fa-trash");
 
 Array.from(thumbUp).forEach(function(element) {
+  console.log('top')
       element.addEventListener('click', function(){
-        const name = this.parentNode.parentNode.childNodes[1].innerText
-        const msg = this.parentNode.parentNode.childNodes[3].innerText
+        console.log('event')
+        const img = this.parentNode.parentNode.childNodes[1].src
+        const name = this.parentNode.parentNode.childNodes[3].innerText
         const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
         fetch('messages', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             'name': name,
-            'msg': msg,
+            'img': img,
             'thumbUp':thumbUp
           })
         })
@@ -34,20 +36,21 @@ Array.from(thumbUp).forEach(function(element) {
 });
 Array.from(thumbDown).forEach(function(element) {
       element.addEventListener('click', function(){
-        const name = this.parentNode.parentNode.childNodes[1].innerText
-        const msg = this.parentNode.parentNode.childNodes[3].innerText
+        const img = this.parentNode.parentNode.childNodes[1].src
+        const name = this.parentNode.parentNode.childNodes[3].innerText
         const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
         fetch('messages/down', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             'name': name,
-            'msg': msg,
+            'img': img,
             'thumbUp':thumbUp
           })
         })
         .then(response => {
           if (response.ok) return response.json()
+          console.log(thumbUp)
         })
         .then(data => {
           console.log(data)
@@ -58,8 +61,8 @@ Array.from(thumbDown).forEach(function(element) {
 
 Array.from(trash).forEach(function(element) {
     element.addEventListener('click', function(){
-      const name = this.parentNode.parentNode.childNodes[1].innerText
-      const msg = this.parentNode.parentNode.childNodes[3].innerText
+      const name = this.parentNode.parentNode.childNodes[3].innerText
+      const img = this.parentNode.parentNode.childNodes[1].getAttribute('src')
       fetch('messages', {
         method: 'delete',
         headers: {
@@ -67,7 +70,7 @@ Array.from(trash).forEach(function(element) {
         },
         body: JSON.stringify({
           'name': name,
-          'msg': msg
+          'img':img,
         })
       }).then(function (response) {
         window.location.reload()

@@ -23,18 +23,21 @@
         <div class="col-sm-6">
           <h3>MEMES</h3>
                     <ul class="messages">
-          <% for(var i=0; i<messages.length; i++) {%>
+          <% for(let i=0; i<messages.length; i++) {%>
             <li class="message">
               <img src="<%= messages[i].img %>" alt="">
               <span><%= messages[i].name %></span>
-              <a href="/delete">🗑️</a>
+              <span><%= messages[i].thumbUp %></span>
+              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
+              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
+              <span><i class="fa fa-trash" aria-hidden="true">x</i></span>
             </li>
           <% } %>
           </ul>
 
           <h2>Add a Picture</h2>
           <form method="post" enctype="multipart/form-data" action="/upload">
-            <input type="file" name="profileImg" class="">
+            <input type="file" name="img" class="">
             <input type="text" name="name" id="" placeholder="Enter name" required>
             <input type="submit" value="Submit" class="submit" >
         </form>
